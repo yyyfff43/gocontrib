@@ -1,0 +1,22 @@
+appname: toruk
+
+redis:
+  host: redis
+  port: 6379
+  db: 0
+  password:
+
+  # 连接池大小
+  pool_size: 3
+
+  # 空闲连接数
+  idle_size: 1
+
+  # 关闭空闲连接的时间，单位秒，默认300秒
+  idle_timeout: 100
+
+  # 如果连接池内所有连接都繁忙，等待获取连接的时间，单位秒，默认5秒
+  pool_timeout: 5
+
+  # 慢查询时间，单位毫秒，默认100毫秒
+  exec_slow_time: 100

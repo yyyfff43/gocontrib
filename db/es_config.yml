@@ -1,0 +1,5 @@
+esMaster:
+  dataSource: http://10.3.138.104:9200
+  index: ""
+  username: ""
+  password: ""

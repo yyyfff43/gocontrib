@@ -1,0 +1,12 @@
+mysqlMaster:
+  dataSource: root:123456@tcp(mysql)/test?charset=utf8
+  maxIdleConns: 1
+  maxOpenConns: 1
+
+mysqlSlaves:
+  - dataSource: root:123456@tcp(mysql)/testa?charset=utf8
+    maxIdleConns: 1
+    maxOpenConns: 1
+  - dataSource: root:123456@tcp(mysql)/testb?charset=utf8
+    maxIdleConns: 1
+    maxOpenConns: 1

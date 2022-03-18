@@ -1,0 +1,16 @@
+
+scheme: "amqp"
+host: "rabbitmq"
+port: 5672
+userName: "xmmq"
+password: "xmdev2021"
+Vhost: "/"
+reliable: true
+
+
+server:
+  quePrefix: "topic-queue-0113"
+  topics:
+  - exchangeName: "test-topic-0114"
+    exchangeType: "direct" #  direct|fanout|topic|x-custom
+    keyPrefix: "binding_key2"

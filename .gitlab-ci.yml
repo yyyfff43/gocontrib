@@ -1,0 +1,51 @@
+image: golangci/golangci-lint:v1.43
+
+services:
+  - redis:6.2.6
+  - name: rabbitmq:3.6.11
+    alias: rabbitmq
+  - name: mysql:5.5.62
+    alias: mysql
+
+variables:
+  REPOSITORY_NAME: git.zhwenxue.com/${CI_PROJECT_PATH}
+  GOPRIVATE: git.zhwenxue.com
+  GOPROXY: https://goproxy.cn
+  RABBITMQ_DEFAULT_USER: xmmq
+  RABBITMQ_DEFAULT_PASS: xmdev2021
+  MYSQL_ROOT_PASSWORD: 123456
+  MYSQL_DATABASE: hello_world_test
+
+
+.env_init: &env_init |
+  mkdir -p $GOPATH/src/$(dirname $REPOSITORY_NAME)
+  ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPOSITORY_NAME
+  cd $GOPATH/src/$REPOSITORY_NAME
+
+default:
+  before_script:
+    - *env_init
+    - sed -i 's/deb.debian.org/ftp.cn.debian.org/g' /etc/apt/sources.list
+    - apt-get update && apt-get install -y default-mysql-client
+    - mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE" < $CI_PROJECT_DIR/db/sql_script/test.sql
+
+stages:
+  - test
+
+lint:
+  stage: test
+  script:
+    - golangci-lint version
+    - golangci-lint run
+  tags:
+    - goci
+
+go_test:
+  stage: test
+  script:
+    - go vet ./...
+    - go test ./...
+    - go test ./... -short -race -cpu=1,2,4 -v ./...
+    - go test ./... -test.run=NONE -test.bench=. -test.benchmem
+  tags:
+    - goci

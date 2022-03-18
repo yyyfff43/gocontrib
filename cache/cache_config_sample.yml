@@ -1,0 +1,3 @@
+cache:
+  cacheSizeMB: 100
+  gcPercent: 20
